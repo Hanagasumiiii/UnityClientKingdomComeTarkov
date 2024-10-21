@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -9,12 +11,13 @@ public class HealthSystem : MonoBehaviour
     
     
     public int InitialHealthPoints = 100;
+    
 
     public int CurrentHP
     {
         get;
         private set;
-    } 
+    }
     
     private void Awake()
     {
@@ -35,10 +38,20 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    public void Healing(int HealRate)
+    public void Healing(int healRate)
     {
-        CurrentHP += HealRate;
-        OnHealing.Invoke();
+        if (CurrentHP + healRate >= 100)
+        {
+            CurrentHP = 100;
+            OnHealing.Invoke();
+            Debug.Log(CurrentHP);
+        }
+        else if (CurrentHP + healRate < 100)
+        {
+            CurrentHP += healRate;
+            OnHealing.Invoke();
+            Debug.Log(CurrentHP);
+        }
     }
 
 

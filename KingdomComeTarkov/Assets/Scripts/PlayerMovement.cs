@@ -6,12 +6,21 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;
     [SerializeField] private float angularSpeed = 180f;
+    [SerializeField] private float jumpForce = 5f;
 
     private Rigidbody _rb;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
     }
 
     private void FixedUpdate()
@@ -33,5 +42,10 @@ public class PlayerMovement : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, angularSpeed * Time.fixedDeltaTime);
         }
+    }
+
+    private void Jump()
+    {
+        _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 }
